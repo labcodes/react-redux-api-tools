@@ -1,6 +1,6 @@
 {
   "name": "react-redux-api-tools",
-  "version": "0.1.0",
+  "version": "0.0.1",
   "description": "Middleware and helpers to improve the React-Redux flow when communicating with APIs.",
   "main": "index.js",
   "scripts": {
