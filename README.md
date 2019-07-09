@@ -8,7 +8,51 @@ This project provides a middleware and a request helper to streamline react-redu
 
 Just run `npm install --save react-redux-api-tools` and you're good to go.
 
-### Middleware capabilities
+### Using the `fetchFromApi` helper
+
+One of the problems of using the default fetch implementation is that it does **not** reject if the status code is 4xx.
+
+It makes our reducers not exactly semantic, since a 400 Bad Request will be interpreted as a successful request.
+
+For that case, we provide the `fetchFromApi` helper, which overrides fetch to reject on anything with status equal or above 400.
+
+To use it, import it and use it on the `apiCallFunction` key, inside your actions:
+
+##### /store/actions.js
+
+```js
+import { fetchFromApi } from "react-redux-api-tools";
+
+// we declare a new action called createProduct that will POST to the backend
+export const createProduct = (product) => {
+
+  // first, we consolidate the request data inside a dict.
+  // we follow the Request object API
+  // https://developer.mozilla.org/en-US/docs/Web/API/Request
+
+  // by default, the method is 'GET' and we use "content-type: application/json" headers,
+  // but you may overwrite the headers as needed
+  const requestData = {
+    method: 'POST',
+    body: JSON.stringify(product)
+  }
+
+  return {
+    types: {
+      request: CREATE_PRODUCTS,
+      success: CREATE_PRODUCTS_SUCCESS,
+      failure: CREATE_PRODUCTS_FAILURE,
+    },
+    // here is where we use it
+    apiCallFunction: () => fetchFromApi(`/api/${product.brand}/inventory/`, requestData),
+  };
+}
+```
+
+
+### Using the middleware
+
+#### Middleware capabilities
 
 The middleware bundles three actions (`request`, `success` and `failure`) into one action call.
 
@@ -38,7 +82,7 @@ That will:
 - trigger `FETCH_PRODUCTS_SUCCESS` if the request succeeds;
 - trigger `FETCH_PRODUCTS_FAILURE` if it doesn't.
 
-### Using the middleware
+#### Setup
 
 Assuming you've already installed react and redux, to use it, you'll need to install `redux-thunk` first:
 
@@ -206,47 +250,6 @@ const mapDispatchToProps = (dispatch) => ({
 
 // and connect it to redux :)
 export default connect(mapStateToProps, mapDispatchToProps)(ProductsList);
-```
-
-### Using the `fetchFromApi` helper
-
-One of the problems of using the default fetch implementation is that it does **not** reject if the status code is 4xx.
-
-It makes our reducers not exactly semantic, since a 400 Bad Request will be interpreted as a successful request.
-
-For that case, we provide the `fetchFromApi` helper, which overrides fetch to reject on anything with status equal or above 400.
-
-To use it, import it and use it on the `apiCallFunction` key, inside your actions:
-
-##### /store/actions.js
-
-```js
-import { fetchFromApi } from "react-redux-api-tools";
-
-// we declare a new action called createProduct that will POST to the backend
-export const createProduct = (product) => {
-
-  // first, we consolidate the request data inside a dict.
-  // we follow the Request object API
-  // https://developer.mozilla.org/en-US/docs/Web/API/Request
-
-  // by default, the method is 'GET' and we use "content-type: application/json" headers,
-  // but you may overwrite the headers as needed
-  const requestData = {
-    method: 'POST',
-    body: JSON.stringify(product)
-  }
-
-  return {
-    types: {
-      request: CREATE_PRODUCTS,
-      success: CREATE_PRODUCTS_SUCCESS,
-      failure: CREATE_PRODUCTS_FAILURE,
-    },
-    // here is where we use it
-    apiCallFunction: () => fetchFromApi(`/api/${product.brand}/inventory/`, requestData),
-  };
-}
 ```
 
 ### Contributing
