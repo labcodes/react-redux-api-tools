@@ -39,9 +39,9 @@ export const createProduct = (product) => {
 
   return {
     types: {
-      request: CREATE_PRODUCTS,
-      success: CREATE_PRODUCTS_SUCCESS,
-      failure: CREATE_PRODUCTS_FAILURE,
+      request: 'CREATE_PRODUCTS',
+      success: 'CREATE_PRODUCTS_SUCCESS',
+      failure: 'CREATE_PRODUCTS_FAILURE',
     },
     // here is where we use it
     apiCallFunction: () => fetchFromApi(`/api/${product.brand}/inventory/`, requestData),
@@ -66,9 +66,9 @@ export const fetchProducts = () => {
     // we return three, one for each step of the request
     // inside the 'types' key
     types: {
-      request: FETCH_PRODUCTS,
-      success: FETCH_PRODUCTS_SUCCESS,
-      failure: FETCH_PRODUCTS_FAILURE,
+      request: 'FETCH_PRODUCTS',
+      success: 'FETCH_PRODUCTS_SUCCESS',
+      failure: 'FETCH_PRODUCTS_FAILURE',
     },
     // we also declare a function that will implement the proper request
     apiCallFunction: () => fetchFromApi('/api/inventory/')
@@ -132,9 +132,9 @@ export const fetchProducts = (brand) => {
     // we return three, one for each step of the request
     // inside the 'types' key
     types: {
-      request: FETCH_PRODUCTS,
-      success: FETCH_PRODUCTS_SUCCESS,
-      failure: FETCH_PRODUCTS_FAILURE,
+      request: 'FETCH_PRODUCTS',
+      success: 'FETCH_PRODUCTS_SUCCESS',
+      failure: 'FETCH_PRODUCTS_FAILURE',
     },
     // we also declare a function that will implement the proper request
     apiCallFunction: () => fetchFromApi(`/api/${brand}/inventory/`),
@@ -159,7 +159,7 @@ On the reducers side, nothing much changes. We pass the `response` (always) and 
 const productReducer = (state = { isLoading: false }, action) => {
   switch(action.type) {
 
-    case FETCH_PRODUCTS:
+    case 'FETCH_PRODUCTS':
       return {
         ...state,
         isLoading: true,
@@ -169,7 +169,7 @@ const productReducer = (state = { isLoading: false }, action) => {
         brand: action.extraData.brand
       };
 
-    case FETCH_PRODUCTS_SUCCESS:
+    case 'FETCH_PRODUCTS_SUCCESS':
       return {
         ...state,
         isLoading: false,
@@ -179,7 +179,7 @@ const productReducer = (state = { isLoading: false }, action) => {
         items: action.response.data
       };
 
-    case FETCH_PRODUCTS_FAILURE:
+    case 'FETCH_PRODUCTS_FAILURE':
       return {
         ...state,
         isLoading: false,
