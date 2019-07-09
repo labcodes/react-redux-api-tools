@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/lucianoratamero/react-redux-api-tools.git"
+    "url": "git+https://github.com/labcodes/react-redux-api-tools.git"
   },
   "keywords": [
     "react",
@@ -20,7 +20,7 @@
   "author": "Luciano Ratamero",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/lucianoratamero/react-redux-api-tools/issues"
+    "url": "https://github.com/labcodes/react-redux-api-tools/issues"
   },
-  "homepage": "https://github.com/lucianoratamero/react-redux-api-tools#readme"
+  "homepage": "https://github.com/labcodes/react-redux-api-tools#readme"
 }
