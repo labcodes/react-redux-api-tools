@@ -23,7 +23,7 @@ export function apiMiddleware({ dispatch, getState }) {
     }
 
     // we dispatch the request action, so the interface can react to it
-    dispatch({ ...extraData, type: types.request });
+    dispatch({ extraData, type: types.request });
 
     // at last, we return a promise with the proper api call
     return new Promise((resolve, reject) => {
