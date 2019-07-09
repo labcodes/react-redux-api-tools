@@ -50,12 +50,12 @@ export function apiMiddleware({ dispatch, getState }) {
             error.json().then(
               data => {
                 error.data = data;  // form backend error
-                dispatch({ extraData, error, type: types.failure });
+                dispatch({ extraData, error, response: error, type: types.failure });
                 reject(error);
               }
             )
           } else {
-            dispatch({ extraData, error, type: types.failure });
+            dispatch({ extraData, error, response: error, type: types.failure });
             reject(error);
           }
         }
