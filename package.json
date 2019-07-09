@@ -1,0 +1,26 @@
+{
+  "name": "react-redux-api-tools",
+  "version": "0.1.0",
+  "description": "Middleware and helpers to improve the React-Redux flow when communicating with APIs.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lucianoratamero/react-redux-api-tools.git"
+  },
+  "keywords": [
+    "react",
+    "redux",
+    "api",
+    "tools",
+    "middleware"
+  ],
+  "author": "Luciano Ratamero",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lucianoratamero/react-redux-api-tools/issues"
+  },
+  "homepage": "https://github.com/lucianoratamero/react-redux-api-tools#readme"
+}
