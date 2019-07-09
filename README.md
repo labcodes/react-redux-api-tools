@@ -62,9 +62,9 @@ Let me show you with code. This is what a request action would look like when yo
 // we declare a new action called fetchProducts that will fetch data
 export const fetchProducts = () => {
   return {
-    // instead of returning the key type with one action type,
+    // instead of returning the key 'type' with one action type,
     // we return three, one for each step of the request
-    // inside the types key
+    // inside the 'types' key
     types: {
       request: FETCH_PRODUCTS,
       success: FETCH_PRODUCTS_SUCCESS,
@@ -254,4 +254,6 @@ export default connect(mapStateToProps, mapDispatchToProps)(ProductsList);
 
 ### Contributing
 
-Don't hesitate to open an issue for bugs, but if you would like a new feature, I would really like to discuss it before accepting PRs. I reserve myself the right to reject a feature that was not discussed or that will impact the code in a meaningful way. Please, open an issue so we can discuss, yes? PLS? Thanks. <3
+Don't hesitate to open an issue for bugs!
+
+But if you would like a new feature, it would be nice to discuss it before accepting PRs. We reserve ourselves the right to reject a feature that was not discussed or that will impact the code in a meaningful way. In that case, open an issue so we can discuss. Thanks. <3
