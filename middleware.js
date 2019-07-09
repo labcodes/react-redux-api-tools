@@ -74,7 +74,7 @@ const validateAction = (action) => {
     || !Object.keys(types).every(type => expectedTypes.includes(type))
     || !Object.values(types).every(type => typeof type === 'string')
   ) {
-    throw new Error('Expected an object/dict with three keys (request, success and failure), and the values should be strings.');
+    throw new Error('Expected action.types to be an object/dict with three keys (request, success and failure), and the values should be strings.');
   }
 
   if (typeof apiCallFunction !== 'function') {
