@@ -1,8 +1,9 @@
 # react-redux-api-tools
 
-This project provides a middleware and a request helper to streamline react-redux data fetching.
+[![Coverage Status](https://coveralls.io/repos/github/labcodes/react-redux-api-tools/badge.svg?branch=master)](https://coveralls.io/github/labcodes/react-redux-api-tools?branch=master) [![Build Status](https://travis-ci.org/labcodes/react-redux-api-tools.svg?branch=master)](https://travis-ci.org/labcodes/react-redux-api-tools)
 
-*It's still on beta, so be aware of that ;)*
+
+This project provides a middleware and a request helper to streamline react-redux data fetching.
 
 ### Installing
 
