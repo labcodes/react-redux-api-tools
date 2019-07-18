@@ -1,4 +1,4 @@
-import { fetchFromApi } from '../lib/api';
+import fetchFromApi from '../lib/api';
 
 describe('fetchFromApi', () => {
   beforeEach(() => {
@@ -8,66 +8,66 @@ describe('fetchFromApi', () => {
   it('should resolve fetch and return data with error', async () => {
     fetch.mockResolvedValue({
       status: 400,
-      message: 'The name is empty'
+      message: 'The name is empty',
     });
 
     const requestData = {
       method: 'POST',
-      body: { name: '' }
+      body: { name: '' },
     };
     try {
       await fetchFromApi('http://localhost:3000/products', requestData);
     } catch (e) {
       expect(e).toEqual({
         status: 400,
-        message: 'The name is empty'
+        message: 'The name is empty',
       });
     }
   });
 
   it('should resolve fetch and return data', async () => {
     fetch.mockResolvedValue({
-      data: [{ name: 'Xbox' }]
+      data: [{ name: 'Xbox' }],
     });
 
     const response = await fetchFromApi('http://localhost:3000/products');
 
     expect(response).toEqual({
-      data: [{ name: 'Xbox' }]
+      data: [{ name: 'Xbox' }],
     });
   });
 
   it('should define application/json as default headers', async () => {
     fetch.mockResolvedValue({
-      data: [{ name: 'Xbox' }]
+      data: [{ name: 'Xbox' }],
     });
-    let requestData = {};
+    const requestData = {};
 
-    const response = await fetchFromApi('http://localhost:3000/products', requestData);
+    await fetchFromApi('http://localhost:3000/products', requestData);
 
     expect(requestData).toEqual({
       headers: {
-        'content-type': 'application/json'
-      }
+        'content-type': 'application/json',
+      },
     });
   });
 
   it('should not overwrite content type if specified in requestData', async () => {
     fetch.mockResolvedValue({
-      data: [{ name: 'Xbox' }]
+      data: [{ name: 'Xbox' }],
     });
-    let requestData = {
+    const requestData = {
       headers: {
-        'content-type': 'application/x-www-form-urlencoded'
-      }
+        'content-type': 'application/x-www-form-urlencoded',
+      },
     };
 
-    const response = await fetchFromApi('http://localhost:3000/products', requestData);
+    await fetchFromApi('http://localhost:3000/products', requestData);
 
     expect(requestData).toEqual({
       headers: {
-        'content-type': 'application/x-www-form-urlencoded'
-      }
+        'content-type': 'application/x-www-form-urlencoded',
+      },
     });
   });
 
