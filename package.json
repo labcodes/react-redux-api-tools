@@ -4,7 +4,7 @@
   "description": "Middleware and helpers to improve the React-Redux flow when communicating with APIs.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\""
+    "test": "jest *.test.js"
   },
   "repository": {
     "type": "git",
@@ -22,5 +22,19 @@
   "bugs": {
     "url": "https://github.com/labcodes/react-redux-api-tools/issues"
   },
-  "homepage": "https://github.com/labcodes/react-redux-api-tools#readme"
+  "homepage": "https://github.com/labcodes/react-redux-api-tools#readme",
+  "devDependencies": {
+    "@babel/core": "^7.5.4",
+    "@babel/plugin-transform-runtime": "^7.5.0",
+    "@babel/preset-env": "^7.5.4",
+    "@babel/runtime": "^7.5.4",
+    "jest": "^24.8.0",
+    "jest-fetch-mock": "^2.1.2"
+  },
+  "jest": {
+    "automock": false,
+    "setupFiles": [
+      "<rootDir>/setupJest.js"
+    ]
+  }
 }
