@@ -4,6 +4,7 @@
   "description": "Middleware and helpers to improve the React-Redux flow when communicating with APIs.",
   "main": "index.js",
   "scripts": {
+    "coveralls": "jest --coverage && cat ./coverage/lcov.info | coveralls",
     "test": "jest",
     "test_debug": "node --inspect node_modules/.bin/jest"
   },
@@ -29,6 +30,7 @@
     "@babel/plugin-transform-runtime": "^7.5.0",
     "@babel/preset-env": "^7.5.4",
     "@babel/runtime": "^7.5.4",
+    "coveralls": "^3.0.5",
     "jest": "^24.8.0",
     "jest-fetch-mock": "^2.1.2"
   },
