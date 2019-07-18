@@ -1,15 +1,15 @@
-
-import { apiMiddleware } from '../lib/middleware';
+import apiMiddleware from '../lib/middleware';
 
 describe('apiMiddleware', () => {
-
-  let dispatch, getState, next;
+  let dispatch;
+  let getState;
+  let next;
 
   beforeEach(() => {
     dispatch = jest.fn();
     getState = jest.fn();
     next = jest.fn();
-  })
+  });
 
   it('Should dispatch action success and return the data body - no json', async () => {
     function get() {
@@ -18,17 +18,17 @@ describe('apiMiddleware', () => {
 
     const apiCallFunction = jest.fn().mockResolvedValue({
       headers: {
-        get
-      }
+        get,
+      },
     });
 
     const action = {
       types: {
         request: 'REQUEST',
         success: 'SUCCESS',
-        failure: 'FAILURE'
+        failure: 'FAILURE',
       },
-      apiCallFunction
+      apiCallFunction,
     };
 
     const response = await apiMiddleware({ dispatch, getState })(next)(action);
@@ -38,17 +38,17 @@ describe('apiMiddleware', () => {
 
     const expectedResponse = {
       headers: {
-        get
-      }
+        get,
+      },
     };
     expect(dispatch).toBeCalledWith({
       extraData: {},
-      type: 'REQUEST'
+      type: 'REQUEST',
     });
     expect(dispatch).toBeCalledWith({
       extraData: {},
       response: expectedResponse,
-      type: 'SUCCESS'
+      type: 'SUCCESS',
     });
     expect(response).toEqual(expectedResponse);
   });
@@ -59,7 +59,7 @@ describe('apiMiddleware', () => {
     }
 
     const body = {
-      data: [{ id: 1, name: 'Xbox' }]
+      data: [{ id: 1, name: 'Xbox' }],
     };
 
     function json() {
@@ -68,18 +68,18 @@ describe('apiMiddleware', () => {
 
     const apiCallFunction = jest.fn().mockResolvedValue({
       headers: {
-        get
+        get,
       },
-      json
+      json,
     });
 
     const action = {
       types: {
         request: 'REQUEST',
         success: 'SUCCESS',
-        failure: 'FAILURE'
+        failure: 'FAILURE',
       },
-      apiCallFunction
+      apiCallFunction,
     };
 
     const response = await apiMiddleware({ dispatch, getState })(next)(action);
@@ -90,18 +90,18 @@ describe('apiMiddleware', () => {
     const expectedResponse = {
       data: body,
       headers: {
-        get
+        get,
       },
-      json
+      json,
     };
     expect(dispatch).toBeCalledWith({
       extraData: {},
-      type: 'REQUEST'
+      type: 'REQUEST',
     });
     expect(dispatch).toBeCalledWith({
       extraData: {},
       response: expectedResponse,
-      type: 'SUCCESS'
+      type: 'SUCCESS',
     });
     expect(response).toEqual(expectedResponse);
   });
@@ -113,7 +113,7 @@ describe('apiMiddleware', () => {
 
     const body = {
       status: 500,
-      message: 'Internal Error'
+      message: 'Internal Error',
     };
 
     function json() {
@@ -122,25 +122,25 @@ describe('apiMiddleware', () => {
 
     const apiCallFunction = jest.fn().mockRejectedValue({
       headers: {
-        get
+        get,
       },
-      json
+      json,
     });
 
     const action = {
       types: {
         request: 'REQUEST',
         success: 'SUCCESS',
-        failure: 'FAILURE'
+        failure: 'FAILURE',
       },
-      apiCallFunction
+      apiCallFunction,
     };
 
     const expectedResponse = {
       headers: {
-        get
+        get,
       },
-      json
+      json,
     };
 
     try {
@@ -153,13 +153,13 @@ describe('apiMiddleware', () => {
     expect(getState).toBeCalled();
     expect(dispatch).toBeCalledWith({
       extraData: {},
-      type: 'REQUEST'
+      type: 'REQUEST',
     });
     expect(dispatch).toBeCalledWith({
       extraData: {},
       response: expectedResponse,
       error: expectedResponse,
-      type: 'FAILURE'
+      type: 'FAILURE',
     });
   });
 
@@ -170,7 +170,7 @@ describe('apiMiddleware', () => {
 
     const body = {
       status: 500,
-      message: 'Internal Error'
+      message: 'Internal Error',
     };
 
     function json() {
@@ -179,26 +179,26 @@ describe('apiMiddleware', () => {
 
     const apiCallFunction = jest.fn().mockRejectedValue({
       headers: {
-        get
+        get,
       },
-      json
+      json,
     });
 
     const action = {
       types: {
         request: 'REQUEST',
         success: 'SUCCESS',
-        failure: 'FAILURE'
+        failure: 'FAILURE',
       },
-      apiCallFunction
+      apiCallFunction,
     };
 
     const expectedResponse = {
       data: body,
       headers: {
-        get
+        get,
       },
-      json
+      json,
     };
 
     try {
@@ -211,19 +211,19 @@ describe('apiMiddleware', () => {
     expect(getState).toBeCalled();
     expect(dispatch).toBeCalledWith({
       extraData: {},
-      type: 'REQUEST'
+      type: 'REQUEST',
     });
     expect(dispatch).toBeCalledWith({
       extraData: {},
       response: expectedResponse,
       error: expectedResponse,
-      type: 'FAILURE'
+      type: 'FAILURE',
     });
   });
 
   it("Should catch error when it doesn't pass all types actions", async () => {
     const action = {
-      types: {}
+      types: {},
     };
 
     try {
@@ -231,15 +231,15 @@ describe('apiMiddleware', () => {
     } catch (error) {
       expect(error).toEqual(
         new Error(
-          'Expected action.types to be an object/dict with three keys (request, success and failure), and the values should be strings.'
-        )
+          'Expected action.types to be an object/dict with three keys (request, success and failure), and the values should be strings.',
+        ),
       );
     }
   });
 
   it('Should pass action forwarn if no types are defined', async () => {
     const action = {
-      type: 'REQUEST'
+      type: 'REQUEST',
     };
     apiMiddleware({ dispatch, getState })(next)(action);
     expect(next).toBeCalledWith(action);
@@ -250,16 +250,14 @@ describe('apiMiddleware', () => {
       types: {
         request: 'REQUEST',
         success: 'SUCCESS',
-        failure: 'FAILURE'
-      }
+        failure: 'FAILURE',
+      },
     };
 
     try {
       await apiMiddleware({ dispatch, getState })(next)(action);
     } catch (error) {
-      expect(error).toEqual(
-        new Error('Expected `apiCallFunction` to be a function.')
-      );
+      expect(error).toEqual(new Error('Expected `apiCallFunction` to be a function.'));
     }
   });
 
@@ -269,7 +267,7 @@ describe('apiMiddleware', () => {
     }
 
     const body = {
-      data: [{ id: 1, name: 'Xbox' }]
+      data: [{ id: 1, name: 'Xbox' }],
     };
 
     function json() {
@@ -278,19 +276,19 @@ describe('apiMiddleware', () => {
 
     const apiCallFunction = jest.fn().mockResolvedValue({
       headers: {
-        get
+        get,
       },
-      json
+      json,
     });
 
     const action = {
       types: {
         request: 'REQUEST',
         success: 'SUCCESS',
-        failure: 'FAILURE'
+        failure: 'FAILURE',
       },
       apiCallFunction,
-      shouldCallApi: () => false
+      shouldCallApi: () => false,
     };
 
     apiMiddleware({ dispatch, getState })(next)(action);
