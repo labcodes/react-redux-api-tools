@@ -37,6 +37,40 @@ describe('fetchFromApi', () => {
     });
   });
 
+  it('should define application/json as default headers', async () => {
+    fetch.mockResolvedValue({
+      data: [{ name: 'Xbox' }]
+    });
+    let requestData = {};
+
+    const response = await fetchFromApi('http://localhost:3000/products', requestData);
+
+    expect(requestData).toEqual({
+      headers: {
+        'content-type': 'application/json'
+      }
+    });
+  });
+
+  it('should not overwrite content type if specified in requestData', async () => {
+    fetch.mockResolvedValue({
+      data: [{ name: 'Xbox' }]
+    });
+    let requestData = {
+      headers: {
+        'content-type': 'application/x-www-form-urlencoded'
+      }
+    };
+
+    const response = await fetchFromApi('http://localhost:3000/products', requestData);
+
+    expect(requestData).toEqual({
+      headers: {
+        'content-type': 'application/x-www-form-urlencoded'
+      }
+    });
+  });
+
   it('should reject fetch and catch by error', async () => {
     fetch.mockRejectedValue(new Error('404 Not found'));
     try {

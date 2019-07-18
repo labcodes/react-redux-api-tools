@@ -11,7 +11,49 @@ describe('apiMiddleware', () => {
     next = jest.fn();
   })
 
-  it('Should dispatch action success and return the data body', async () => {
+  it('Should dispatch action success and return the data body - no json', async () => {
+    function get() {
+      return 'application/x-www-form-urlencoded';
+    }
+
+    const apiCallFunction = jest.fn().mockResolvedValue({
+      headers: {
+        get
+      }
+    });
+
+    const action = {
+      types: {
+        request: 'REQUEST',
+        success: 'SUCCESS',
+        failure: 'FAILURE'
+      },
+      apiCallFunction
+    };
+
+    const response = await apiMiddleware({ dispatch, getState })(next)(action);
+
+    expect(next).not.toBeCalled();
+    expect(getState).toBeCalled();
+
+    const expectedResponse = {
+      headers: {
+        get
+      }
+    };
+    expect(dispatch).toBeCalledWith({
+      extraData: {},
+      type: 'REQUEST'
+    });
+    expect(dispatch).toBeCalledWith({
+      extraData: {},
+      response: expectedResponse,
+      type: 'SUCCESS'
+    });
+    expect(response).toEqual(expectedResponse);
+  });
+
+  it('Should dispatch action success and return the data body - json', async () => {
     function get() {
       return 'application/json';
     }
@@ -64,7 +106,64 @@ describe('apiMiddleware', () => {
     expect(response).toEqual(expectedResponse);
   });
 
-  it('Should dispatch action failure when has some error on request', async () => {
+  it('Should dispatch action failure when has some error on request - no json', async () => {
+    function get() {
+      return 'application/x-www-form-urlencoded';
+    }
+
+    const body = {
+      status: 500,
+      message: 'Internal Error'
+    };
+
+    function json() {
+      return Promise.resolve(body);
+    }
+
+    const apiCallFunction = jest.fn().mockRejectedValue({
+      headers: {
+        get
+      },
+      json
+    });
+
+    const action = {
+      types: {
+        request: 'REQUEST',
+        success: 'SUCCESS',
+        failure: 'FAILURE'
+      },
+      apiCallFunction
+    };
+
+    const expectedResponse = {
+      headers: {
+        get
+      },
+      json
+    };
+
+    try {
+      await apiMiddleware({ dispatch, getState })(next)(action);
+    } catch (error) {
+      expect(error).toEqual(expectedResponse);
+    }
+
+    expect(next).not.toBeCalled();
+    expect(getState).toBeCalled();
+    expect(dispatch).toBeCalledWith({
+      extraData: {},
+      type: 'REQUEST'
+    });
+    expect(dispatch).toBeCalledWith({
+      extraData: {},
+      response: expectedResponse,
+      error: expectedResponse,
+      type: 'FAILURE'
+    });
+  });
+
+  it('Should dispatch action failure when has some error on request - ', async () => {
     function get() {
       return 'application/json';
     }
@@ -136,6 +235,14 @@ describe('apiMiddleware', () => {
         )
       );
     }
+  });
+
+  it('Should pass action forwarn if no types are defined', async () => {
+    const action = {
+      type: 'REQUEST'
+    };
+    apiMiddleware({ dispatch, getState })(next)(action);
+    expect(next).toBeCalledWith(action);
   });
 
   it('Should catch error when apiCallFunction dependency is not a function', async () => {
