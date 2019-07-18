@@ -3,3 +3,5 @@ node_js:
   - "current"
 script:
   - npm run coveralls
+before_script:
+  - yarn run lint
