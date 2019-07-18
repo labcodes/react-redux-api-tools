@@ -1,4 +1,4 @@
-import { fetchFromApi } from './api';
+import { fetchFromApi } from '../lib/api';
 
 describe('fetchFromApi', () => {
   beforeEach(() => {
@@ -11,12 +11,12 @@ describe('fetchFromApi', () => {
       message: 'The name is empty'
     });
 
-    const header = {
+    const requestData = {
       method: 'POST',
       body: { name: '' }
     };
     try {
-      await fetchFromApi('http://localhost:3000/products');
+      await fetchFromApi('http://localhost:3000/products', requestData);
     } catch (e) {
       expect(e).toEqual({
         status: 400,

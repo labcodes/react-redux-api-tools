@@ -1,11 +1,17 @@
-import { apiMiddleware } from './middleware';
+
+import { apiMiddleware } from '../lib/middleware';
 
 describe('apiMiddleware', () => {
-  it('Should dispatch action success and return the data body', async () => {
-    const dispatch = jest.fn();
-    const getState = jest.fn();
-    const next = jest.fn();
 
+  let dispatch, getState, next;
+
+  beforeEach(() => {
+    dispatch = jest.fn();
+    getState = jest.fn();
+    next = jest.fn();
+  })
+
+  it('Should dispatch action success and return the data body', async () => {
     function get() {
       return 'application/json';
     }
@@ -58,11 +64,7 @@ describe('apiMiddleware', () => {
     expect(response).toEqual(expectedResponse);
   });
 
-  it('Should dispatch action failture when has some error on request', async () => {
-    const dispatch = jest.fn();
-    const getState = jest.fn();
-    const next = jest.fn();
-
+  it('Should dispatch action failure when has some error on request', async () => {
     function get() {
       return 'application/json';
     }
@@ -121,9 +123,6 @@ describe('apiMiddleware', () => {
   });
 
   it("Should catch error when it doesn't pass all types actions", async () => {
-    const dispatch = jest.fn();
-    const getState = jest.fn();
-    const next = jest.fn();
     const action = {
       types: {}
     };
@@ -140,9 +139,6 @@ describe('apiMiddleware', () => {
   });
 
   it('Should catch error when apiCallFunction dependency is not a function', async () => {
-    const dispatch = jest.fn();
-    const getState = jest.fn();
-    const next = jest.fn();
     const action = {
       types: {
         request: 'REQUEST',
@@ -158,5 +154,42 @@ describe('apiMiddleware', () => {
         new Error('Expected `apiCallFunction` to be a function.')
       );
     }
+  });
+
+  it('Should not call api is shouldCallApi returns false', async () => {
+    function get() {
+      return 'application/json';
+    }
+
+    const body = {
+      data: [{ id: 1, name: 'Xbox' }]
+    };
+
+    function json() {
+      return Promise.resolve(body);
+    }
+
+    const apiCallFunction = jest.fn().mockResolvedValue({
+      headers: {
+        get
+      },
+      json
+    });
+
+    const action = {
+      types: {
+        request: 'REQUEST',
+        success: 'SUCCESS',
+        failure: 'FAILURE'
+      },
+      apiCallFunction,
+      shouldCallApi: () => false
+    };
+
+    apiMiddleware({ dispatch, getState })(next)(action);
+
+    expect(next).not.toBeCalled();
+    expect(getState).toBeCalled();
+    expect(dispatch).not.toBeCalled();
   });
 });
