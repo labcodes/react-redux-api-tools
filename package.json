@@ -1,5 +1,5 @@
 {
-  "name": "react-redux-api-tools",
+  "name": "@labcodes/react-redux-api-tools",
   "version": "1.0.0",
   "description": "Middleware and helpers to improve the React-Redux flow when communicating with APIs.",
   "main": "index.js",
