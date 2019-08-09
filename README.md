@@ -141,7 +141,7 @@ export const fetchProducts = (brand) => {
     apiCallFunction: () => fetchFromApi(`/api/${brand}/inventory/`),
 
     // there is an optional callback so we can stop a request if we don't need to refetch the data
-    shouldCallApi: (state) => { return !state.items.length },
+    shouldCallApi: (state, action) => { return !state.items.length },
 
     // and you may as well pass some extra data, if needed
     extraData: {
