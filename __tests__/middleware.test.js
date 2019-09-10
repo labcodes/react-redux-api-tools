@@ -261,7 +261,7 @@ describe('apiMiddleware', () => {
     }
   });
 
-  it('Should not call api is shouldCallApi returns false', async () => {
+  it('Should not call api is shouldDispatch returns false', async () => {
     function get() {
       return 'application/json';
     }
@@ -288,7 +288,7 @@ describe('apiMiddleware', () => {
         failure: 'FAILURE',
       },
       apiCallFunction,
-      shouldCallApi: () => false,
+      shouldDispatch: () => false,
     };
 
     apiMiddleware({ dispatch, getState })(next)(action);
