@@ -83,6 +83,27 @@ That will:
 - trigger `FETCH_PRODUCTS_SUCCESS` if the request succeeds;
 - trigger `FETCH_PRODUCTS_FAILURE` if it doesn't.
 
+
+#### Making multiple requests at the same time
+
+If you want to make multiple requests in the same call, instead of returning a single `fetchFromApi` call, you may use [`Promise.all`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/all) passing a list of `fetchFromApi` calls:
+
+```js
+export const fetchMultipleProducts = () => {
+  return {
+    types: {
+      request: 'FETCH_MULTIPLE_PRODUCTS',
+      success: 'FETCH_MULTIPLE_PRODUCTS_SUCCESS',
+      failure: 'FETCH_MULTIPLE_PRODUCTS_FAILURE',
+    },
+    apiCallFunction: () => Promise.all([ fetchFromApi('/api/inventory/1'), fetchFromApi('/api/inventory/2'), ])
+  };
+}
+```
+
+When all of them are successful, the `'FETCH_MULTIPLE_PRODUCTS_SUCCESS'` reducer will be called with a list of `Response` objects. When one of them fails, the `'FETCH_MULTIPLE_PRODUCTS_FAILURE'` will be triggered passing the `Error` instance (most probably a `TypeError: Failed to fetch` error).
+
+
 #### Setup
 
 Assuming you've already installed react and redux, to use it, you'll need to install `redux-thunk` first:
