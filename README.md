@@ -86,7 +86,7 @@ That will:
 
 #### Making multiple requests at the same time
 
-If you want to make multiple requests in the same call, intead of returning a single `fetchFromApi` call, you may use [`Promise.all`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/all) passing a list of `fetchFromApi` calls:
+If you want to make multiple requests in the same call, instead of returning a single `fetchFromApi` call, you may use [`Promise.all`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/all) passing a list of `fetchFromApi` calls:
 
 ```js
 export const fetchMultipleProducts = () => {
