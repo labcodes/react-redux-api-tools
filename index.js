@@ -16,8 +16,8 @@ Object.defineProperty(exports, "apiMiddleware", {
   }
 });
 
-var _api = _interopRequireDefault(require("./lib/api"));
+var _api = _interopRequireDefault(require("./dist/api"));
 
-var _middleware = _interopRequireDefault(require("./lib/middleware"));
+var _middleware = _interopRequireDefault(require("./dist/middleware"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
