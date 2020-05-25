@@ -62,7 +62,7 @@ function apiMiddleware(_ref) {
       return new Promise(function (resolve, reject) {
         apiCallFunction(dispatch).then(function (response) {
           // if it's a json response, we unpack and parse it
-          if (response.headers && typeof response.headers.get === 'function' && response.headers.get('content-type') === 'application/json') {
+          if (response.headers && typeof response.headers.get === 'function' && response.headers.get('content-type').startsWith('application/json')) {
             response.json().then(function (data) {
               response.data = data; // from backend response
 
@@ -83,7 +83,7 @@ function apiMiddleware(_ref) {
           }
         }).catch(function (error) {
           // if it's a json response, we unpack and parse it
-          if (error.headers && typeof error.headers.get === 'function' && error.headers.get('content-type') === 'application/json') {
+          if (error.headers && typeof error.headers.get === 'function' && error.headers.get('content-type').startsWith('application/json')) {
             error.json().then(function (data) {
               error.data = data; // form backend error
 
