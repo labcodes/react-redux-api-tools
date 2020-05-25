@@ -55,7 +55,7 @@ describe('apiMiddleware', () => {
 
   it('Should dispatch action success and return the data body - json', async () => {
     function get() {
-      return 'application/json';
+      return 'application/json; charset=utf-8';
     }
 
     const body = {
