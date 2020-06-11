@@ -281,4 +281,4 @@ Don't hesitate to open an issue for bugs!
 
 But if you would like a new feature, it would be nice to discuss it before accepting PRs. We reserve ourselves the right to reject a feature that was not discussed or that will impact the code in a meaningful way. In that case, open an issue so we can discuss. Thanks. <3
 
-![labcodes github banner](labcodes-github-banner.jpg)
+[![labcodes github banner](labcodes-github-banner.jpg)](https://labcodes.com.br/?utm_source=github&utm_medium=cpc&utm_campaign=rel_events)
