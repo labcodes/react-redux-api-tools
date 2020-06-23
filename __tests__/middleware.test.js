@@ -106,6 +106,48 @@ describe('apiMiddleware', () => {
     expect(response).toEqual(expectedResponse);
   });
 
+  it('Should dispatch action success when API returns 204', async () => {
+    const get = () => {};
+
+    const apiCallFunction = jest.fn().mockResolvedValue({
+      headers: {
+        get,
+        status: 204,
+      },
+    });
+
+    const action = {
+      types: {
+        request: 'REQUEST',
+        success: 'SUCCESS',
+        failure: 'FAILURE',
+      },
+      apiCallFunction,
+    };
+
+    const response = await apiMiddleware({ dispatch, getState })(next)(action);
+
+    expect(next).not.toBeCalled();
+    expect(getState).toBeCalled();
+
+    const expectedResponse = {
+      headers: {
+        get,
+        status: 204,
+      },
+    };
+    expect(dispatch).toBeCalledWith({
+      extraData: {},
+      type: 'REQUEST',
+    });
+    expect(dispatch).toBeCalledWith({
+      extraData: {},
+      response: expectedResponse,
+      type: 'SUCCESS',
+    });
+    expect(response).toEqual(expectedResponse);
+  });
+
   it('Should dispatch action failure when has some error on request - no json', async () => {
     function get() {
       return 'application/x-www-form-urlencoded';
@@ -237,7 +279,7 @@ describe('apiMiddleware', () => {
     }
   });
 
-  it('Should pass action forwarn if no types are defined', async () => {
+  it('Should pass action forward if no types are defined', async () => {
     const action = {
       type: 'REQUEST',
     };
